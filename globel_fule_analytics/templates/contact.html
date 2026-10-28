@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block title %}Contact &amp; Portfolio - {{ project_title }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+  <!-- Header Section -->
+  <div class="mb-4 pb-2 border-bottom">
+    <span class="badge badge-pill-custom badge-teal mb-2"><i class="bi bi-envelope me-1"></i> Contact &amp; Portfolio</span>
+    <h1 class="h2 fw-bold mb-1" style="color: var(--navy-dark);">Contact the Project Analyst</h1>
+    <p class="text-secondary mb-0">
+      Get in touch regarding analytical methodology, Tableau workbook architecture, or data portfolio evaluations.
+    </p>
+  </div>
+
+  <div class="row g-4">
+    <!-- Left Column: Contact Form -->
+    <div class="col-lg-7">
+      <div class="card border p-4 rounded-4 shadow-sm bg-white h-100">
+        <h4 class="fw-bold mb-2" style="color: var(--navy-dark);">
+          <i class="bi bi-chat-dots-fill text-teal me-2" style="color: var(--teal-primary);"></i>Send a Project Inquiry or Feedback
+        </h4>
+        <p class="text-secondary small mb-4">
+          Have questions about the fuel elasticity models, taxation classifications, or Tableau visualizations? Leave a message below.
+        </p>
+
+        <form action="{{ url_for('contact') }}" method="POST" novalidate>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="contactName" class="form-label small fw-bold">Your Full Name <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="contactName" name="name" placeholder="e.g. John Doe" required>
+            </div>
+            <div class="col-md-6">
+              <label for="contactEmail" class="form-label small fw-bold">Email Address <span class="text-danger">*</span></label>
+              <input type="email" class="form-control" id="contactEmail" name="email" placeholder="name@domain.com" required>
+            </div>
+            <div class="col-12">
+              <label for="contactSubject" class="form-label small fw-bold">Subject</label>
+              <input type="text" class="form-control" id="contactSubject" name="subject" placeholder="e.g. Feedback on Fuel Dashboard / Tableau Story">
+            </div>
+            <div class="col-12">
+              <label for="contactMessage" class="form-label small fw-bold">Message / Feedback <span class="text-danger">*</span></label>
+              <textarea class="form-control" id="contactMessage" name="message" rows="5" placeholder="Share your thoughts or inquiry regarding the project..." required></textarea>
+            </div>
+            <div class="col-12 text-end">
+              <button type="submit" class="btn btn-teal px-4">
+                <i class="bi bi-send-fill me-2"></i> Submit Message
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Right Column: Student Portfolio & SkillWallet Info -->
+    <div class="col-lg-5">
+      <div class="card border p-4 rounded-4 shadow-sm bg-white mb-4">
+        <h5 class="fw-bold mb-3" style="color: var(--navy-dark);">
+          <i class="bi bi-person-badge-fill text-teal me-2" style="color: var(--teal-primary);"></i>Project Author &amp; Portfolio
+        </h5>
+        <div class="d-flex align-items-center gap-3 mb-3 p-3 bg-light rounded-3">
+          <div class="rounded-circle bg-navy-surface text-white d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; background-color: var(--navy-dark);">
+            <i class="bi bi-mortarboard-fill fs-4 text-teal" style="color: var(--teal-accent);"></i>
+          </div>
+          <div>
+            <h6 class="fw-bold mb-0 text-dark">Data Analytics Student</h6>
+            <small class="text-secondary">Tableau &amp; Python Web Specialist</small>
+          </div>
+        </div>
+
+        <ul class="list-unstyled small text-secondary mb-3">
+          <li class="mb-2"><i class="bi bi-journal-check text-primary me-2"></i><strong>Project:</strong> Global Fuel Prices &amp; Taxation Trends</li>
+          <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i><strong>Specialization:</strong> Data Visualization with Tableau</li>
+          <li class="mb-2"><i class="bi bi-award-fill text-warning me-2"></i><strong>Target:</strong> SkillWallet Portfolio Evaluation</li>
+          <li class="mt-3">
+            <a href="{{ tableau_public_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-teal btn-sm w-100">
+              <i class="bi bi-bar-chart-line me-1"></i> View Live Tableau Dashboard
+            </a>
+          </li>
+        </ul>
+
+        <div class="p-3 bg-teal-subtle rounded-3 border border-teal-subtle text-teal small" style="background-color: #F0FDFA; color: #0D9488;">
+          <i class="bi bi-info-circle-fill me-1"></i> You can personalize your name, LinkedIn, and GitHub links in <code>templates/contact.html</code> or <code>app.py</code>.
+        </div>
+      </div>
+
+      <!-- FAQ Card -->
+      <div class="card border p-4 rounded-4 shadow-sm bg-white">
+        <h5 class="fw-bold mb-3" style="color: var(--navy-dark);">
+          <i class="bi bi-question-circle-fill text-primary me-2"></i>Quick FAQ
+        </h5>
+        <div class="accordion accordion-flush" id="faqAccordion">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="faqHeadingOne">
+              <button class="accordion-button collapsed py-2 px-0 small fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="false" aria-controls="faqCollapseOne">
+                Can I download the Tableau workbook?
+              </button>
+            </h2>
+            <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+              <div class="accordion-body px-0 py-2 small text-secondary">
+                Yes. Click <a href="{{ tableau_public_url }}" target="_blank" rel="noopener noreferrer" class="fw-bold">Open on Tableau Public</a> to view the live dashboard or use Tableau Public's download icon to retrieve the <code>.twbx</code> packaged workbook.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="faqHeadingTwo">
+              <button class="accordion-button collapsed py-2 px-0 small fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                How do I host this web app for free?
+              </button>
+            </h2>
+            <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+              <div class="accordion-body px-0 py-2 small text-secondary">
+                You can deploy this Flask app on free platforms like Render, Railway, or PythonAnywhere without any cost or credit card. Step-by-step instructions are provided in the README.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+

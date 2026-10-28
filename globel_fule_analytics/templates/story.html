@@ -1,0 +1,250 @@
+{% extends "base.html" %}
+
+{% block title %}Tableau Story - {{ project_title }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+  <!-- Header Banner -->
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+    <div>
+      <span class="badge badge-pill-custom badge-orange mb-2"><i class="bi bi-book-half me-1"></i> Data Narrative</span>
+      <h1 class="h2 fw-bold mb-1" style="color: var(--navy-dark);">Tableau Story: Analytical Narrative</h1>
+      <p class="text-secondary mb-0">
+        A structured, sequential narrative dissecting global retail fuel pricing mechanisms and fiscal policy divergence.
+      </p>
+    </div>
+    <div class="d-flex gap-2 align-items-center">
+      <a href="{{ story_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-teal-outline btn-sm">
+        <i class="bi bi-box-arrow-up-right me-1"></i> Open Story on Tableau Public
+      </a>
+      <a href="{{ url_for('dashboard') }}" class="btn btn-teal btn-sm">
+        <i class="bi bi-speedometer2 me-1"></i> Interactive Dashboard &rarr;
+      </a>
+    </div>
+  </div>
+
+  <!-- Beginner Notice / Story URL Setup Guide -->
+  {% if is_placeholder %}
+  <div class="alert alert-warning border-warning border-opacity-50 shadow-sm mb-4" role="alert">
+    <div class="d-flex align-items-start gap-3">
+      <i class="bi bi-gear-fill fs-3 text-warning"></i>
+      <div class="w-100">
+        <div class="d-flex justify-content-between align-items-center">
+          <h5 class="alert-heading fw-bold mb-1">Tableau Story URL Configuration</h5>
+          <span class="badge bg-warning text-dark">Setup Step</span>
+        </div>
+        <p class="mb-2 small">
+          Currently using demo / placeholder URL for the Tableau Story. To display your published Tableau Story:
+        </p>
+        <ol class="small mb-2 ps-3">
+          <li>Publish your completed <strong>Story</strong> to <strong>Tableau Public</strong>.</li>
+          <li>Click the <strong>Share</strong> icon on the published Story page and copy the <strong>Link</strong>.</li>
+          <li>Open <code>app.py</code> and update <code>DEFAULT_TABLEAU_STORY_URL</code> with your link.</li>
+          <li>Save the file and refresh this page.</li>
+        </ol>
+        <div class="p-2 bg-white rounded border small font-monospace text-break">
+          <strong>Current Target Story URL:</strong> {{ story_url }}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Main Tableau Story Embed Container -->
+  <div class="tableau-container-wrapper" id="tableauWrapper">
+    <!-- Toolbar -->
+    <div class="tableau-toolbar">
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-orange-subtle text-orange border border-warning" style="background-color: rgba(249, 115, 22, 0.2); color: #FDBA74;">
+          <i class="bi bi-journal-bookmark-fill me-1"></i> Guided Story View
+        </span>
+        <span class="small text-light text-truncate" style="max-width: 400px;">
+          {{ project_title }} &mdash; Sequential Case Study
+        </span>
+      </div>
+
+      <div class="d-flex align-items-center gap-2">
+        <button type="button" class="btn btn-outline-light btn-sm" id="btnReloadViz" title="Reload Story">
+          <i class="bi bi-arrow-clockwise me-1"></i> Reload
+        </button>
+        <button type="button" class="btn btn-outline-light btn-sm" id="btnToggleFullscreen" title="Toggle Fullscreen">
+          <i class="bi bi-arrows-fullscreen me-1"></i> Fullscreen
+        </button>
+        <button type="button" class="btn btn-outline-light btn-sm" id="btnCopyDashboardLink" data-url="{{ story_url }}" title="Copy Story URL">
+          <i class="bi bi-share me-1"></i> Share Story
+        </button>
+      </div>
+    </div>
+
+    <!-- Embed Frame Area -->
+    <div class="tableau-embed-frame position-relative">
+      <!-- Loading Spinner -->
+      <div class="tableau-loading-indicator" id="tableauLoadingIndicator">
+        <div class="spinner-border text-warning mb-3" style="width: 3rem; height: 3rem;" role="status">
+          <span class="visually-hidden">Loading Tableau Story...</span>
+        </div>
+        <h5 class="fw-bold text-dark mb-1">Loading Tableau Story Narrative</h5>
+        <p class="text-secondary small mb-0">Connecting to Tableau Public servers...</p>
+      </div>
+
+      <!-- Responsive Tableau Iframe Embed -->
+      <iframe 
+        id="tableauEmbedFrame"
+        class="tableau-iframe-element"
+        src="{{ story_embed_url | safe }}"
+        title="Tableau Story: Global Fuel Prices and Taxation Trends"
+        allowfullscreen="true"
+        loading="lazy"
+        sandbox="allow-scripts allow-same-origin allow-popups allow-forms">
+      </iframe>
+    </div>
+  </div>
+
+  <!-- Fallback Notice for Network/Browser Issues -->
+  <div class="tableau-fallback-notice d-none" id="tableauFallbackNotice">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+      <div>
+        <i class="bi bi-exclamation-triangle-fill me-2 text-warning"></i>
+        <strong>Embedding Notice:</strong> If your browser restricts embedded frames from Tableau Public:
+      </div>
+      <a href="{{ story_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-warning btn-sm fw-bold">
+        <i class="bi bi-box-arrow-up-right me-1"></i> Open Story Directly on Tableau Public
+      </a>
+    </div>
+  </div>
+
+  <!-- Story Chapters & Narrative Walkthrough (Analytical Structure) -->
+  <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-white mt-4">
+    <h3 class="fw-bold mb-3" style="color: var(--navy-dark); font-size: 1.4rem;">
+      <i class="bi bi-compass me-2 text-primary"></i>Story Architecture &amp; Chapter Breakdown
+    </h3>
+    <p class="text-secondary small mb-4">
+      The accompanying Tableau Story organizes complex econometric data into a logical 4-stage narrative progression:
+    </p>
+
+    <div class="row g-3">
+      <div class="col-md-6">
+        <div class="p-3 rounded-3 border bg-light h-100">
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <span class="badge bg-primary">Chapter 1</span>
+            <h6 class="fw-bold mb-0">Macro Benchmark: Brent Crude Volatility</h6>
+          </div>
+          <p class="small text-secondary mb-0">
+            Establishes international benchmark pricing fluctuations (<code>Brent Crude USD</code>) over time, setting the baseline global cost of unrefined petroleum feedstocks.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="p-3 rounded-3 border bg-light h-100">
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <span class="badge bg-success">Chapter 2</span>
+            <h6 class="fw-bold mb-0">The Taxation Spectrum &amp; Fiscal Policy</h6>
+          </div>
+          <p class="small text-secondary mb-0">
+            Explores <code>Tax Percentage</code> variations worldwide, distinguishing nations that utilize fuel levies as sovereign revenue sources from those insulating domestic consumers.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="p-3 rounded-3 border bg-light h-100">
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <span class="badge bg-warning text-dark">Chapter 3</span>
+            <h6 class="fw-bold mb-0">Cross-Fuel Spreads: Petrol vs Diesel vs LPG</h6>
+          </div>
+          <p class="small text-secondary mb-0">
+            Compares relative price distributions across fuel types (<code>Petrol USD Liter</code>, <code>Diesel USD Liter</code>, <code>LPG USD Liter</code>), noting implications for public transport and logistics.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="p-3 rounded-3 border bg-light h-100">
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <span class="badge bg-danger">Chapter 4</span>
+            <h6 class="fw-bold mb-0">Economic Equity &amp; Subsidy Interventions</h6>
+          </div>
+          <p class="small text-secondary mb-0">
+            Analyzes the interplay between World Bank <code>Income Level</code> and national <code>Subsidy Level</code>, examining how emerging economies shield populations from energy price shocks.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Key Findings & Conclusion Section (Structured Placeholders) -->
+  <div class="row g-4">
+    <!-- Key Findings Placeholder Card -->
+    <div class="col-lg-7">
+      <div class="card border p-4 rounded-4 shadow-sm h-100 bg-white">
+        <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-2">
+          <h4 class="fw-bold mb-0" style="color: var(--navy-dark); font-size: 1.25rem;">
+            <i class="bi bi-lightbulb-fill text-warning me-2"></i>Analytical Findings Summary
+          </h4>
+          <span class="badge bg-light text-secondary border">Awaiting Viz Execution</span>
+        </div>
+        <p class="text-secondary small mb-3">
+          <em>Note: Analytical values must be populated directly from your Tableau Story calculations.</em>
+        </p>
+
+        <div class="d-flex flex-column gap-3">
+          <div class="p-3 rounded border border-light bg-light">
+            <h6 class="fw-bold text-dark mb-1"><i class="bi bi-record-circle text-teal me-2"></i>1. Crude Price Pass-Through Elasticity</h6>
+            <p class="small text-secondary mb-0">
+              [Placeholder: Document the observed correlation coefficient and lag duration between international Brent crude surges and domestic petrol pump adjustments based on your Tableau scatter/trend chart.]
+            </p>
+          </div>
+
+          <div class="p-3 rounded border border-light bg-light">
+            <h6 class="fw-bold text-dark mb-1"><i class="bi bi-record-circle text-teal me-2"></i>2. Tax Burden Across Income Cohorts</h6>
+            <p class="small text-secondary mb-0">
+              [Placeholder: Record the observed tax percentage dispersion between High Income economies versus Lower-Middle Income jurisdictions from your Tableau boxplot.]
+            </p>
+          </div>
+
+          <div class="p-3 rounded border border-light bg-light">
+            <h6 class="fw-bold text-dark mb-1"><i class="bi bi-record-circle text-teal me-2"></i>3. Fuel Spread Dynamics (Diesel &amp; LPG)</h6>
+            <p class="small text-secondary mb-0">
+              [Placeholder: Note the price premium or discount of diesel relative to petrol across industrial freight corridors identified in your visual story.]
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Conclusion & Recommendations Placeholder Card -->
+    <div class="col-lg-5">
+      <div class="card border p-4 rounded-4 shadow-sm h-100 bg-white">
+        <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-2">
+          <h4 class="fw-bold mb-0" style="color: var(--navy-dark); font-size: 1.25rem;">
+            <i class="bi bi-check2-circle text-success me-2"></i>Project Conclusions
+          </h4>
+          <span class="badge bg-light text-secondary border">Academic Synthesis</span>
+        </div>
+
+        <div class="p-3 rounded border bg-light mb-3">
+          <h6 class="fw-bold text-dark mb-1">Fiscal Vulnerability vs Energy Security</h6>
+          <p class="small text-secondary mb-0">
+            [Placeholder: Synthesize how nations with heavy fuel subsidies face fiscal deficits during crude price spikes, whereas heavy taxation regimes place disproportionate living burdens on consumers.]
+          </p>
+        </div>
+
+        <div class="p-3 rounded border bg-light mb-3">
+          <h6 class="fw-bold text-dark mb-1">Policy Recommendations</h6>
+          <p class="small text-secondary mb-0">
+            [Placeholder: Detail proposed policy transitions, such as targeted direct cash transfers instead of blanket price subsidies, and dynamic excise duty stabilization mechanisms.]
+          </p>
+        </div>
+
+        <div class="p-2 rounded bg-teal-subtle text-teal small text-center border" style="background-color: #F0FDFA; color: #0D9488;">
+          <i class="bi bi-info-circle me-1"></i> These findings update automatically as insights emerge from your Tableau visualization.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+

@@ -1,0 +1,230 @@
+{% extends "base.html" %}
+
+{% block title %}About Project - {{ project_title }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+  <!-- Header Section -->
+  <div class="mb-4 pb-2 border-bottom">
+    <span class="badge badge-pill-custom badge-teal mb-2"><i class="bi bi-file-earmark-text me-1"></i> Documentation</span>
+    <h1 class="h2 fw-bold mb-1" style="color: var(--navy-dark);">Project Methodology &amp; Analytical Framework</h1>
+    <p class="text-secondary mb-0">
+      Comprehensive documentation of research objectives, dataset architecture, data preparation, visualization design, and analytical limitations.
+    </p>
+  </div>
+
+  <!-- 1. Project Background & Objectives -->
+  <div class="doc-section-card">
+    <h3 class="doc-section-title">
+      <i class="bi bi-bullseye text-teal" style="color: var(--teal-primary);"></i>
+      1. Project Background &amp; Core Objectives
+    </h3>
+    <p class="text-secondary">
+      Motor fuels (petrol, diesel, and LPG) are foundational inputs to industrial activity, logistics, personal mobility, and household cooking. While crude oil is priced in standardized global commodity markets (such as Brent Crude), retail prices paid by consumers at local pumps diverge dramatically across borders. This project investigates the structural drivers of that divergence, with a primary focus on <strong>fiscal taxation policies</strong>, <strong>national subsidy regimes</strong>, and <strong>macroeconomic income tiers</strong>.
+    </p>
+    <div class="row g-3 mt-1">
+      <div class="col-md-4">
+        <div class="p-3 rounded bg-light border h-100">
+          <h6 class="fw-bold text-dark"><i class="bi bi-graph-up me-2 text-primary"></i>Price Transmission Elasticity</h6>
+          <p class="small text-secondary mb-0">Assess the degree and speed with which fluctuations in Brent Crude USD pass through into end-consumer petrol and diesel prices.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="p-3 rounded bg-light border h-100">
+          <h6 class="fw-bold text-dark"><i class="bi bi-cash-stack me-2 text-success"></i>Taxation vs Subsidy Trade-Offs</h6>
+          <p class="small text-secondary mb-0">Quantify the divergence between high-tax sovereign jurisdictions and governments deploying fiscal subsidies to shield citizens.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="p-3 rounded bg-light border h-100">
+          <h6 class="fw-bold text-dark"><i class="bi bi-globe me-2 text-warning"></i>Regional &amp; Income Equity</h6>
+          <p class="small text-secondary mb-0">Evaluate how fuel affordability varies across World Bank income brackets (High, Upper-Middle, Lower-Middle, Low).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Dataset Architecture & Data Dictionary -->
+  <div class="doc-section-card">
+    <h3 class="doc-section-title">
+      <i class="bi bi-table text-teal" style="color: var(--teal-primary);"></i>
+      2. Dataset Source &amp; Data Dictionary
+    </h3>
+    <p class="text-secondary mb-3">
+      The analytical model is powered by a multi-national longitudinal dataset consolidating global retail fuel prices, benchmark commodity prices, and World Bank socioeconomic classifications.
+    </p>
+
+    <div class="table-responsive rounded border mb-3">
+      <table class="table table-custom table-hover">
+        <thead>
+          <tr>
+            <th scope="col" style="width: 25%;">Field Name</th>
+            <th scope="col" style="width: 25%;">Data Type</th>
+            <th scope="col" style="width: 50%;">Description &amp; Analytical Role</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for field in dataset_fields %}
+          <tr>
+            <td>
+              <code class="fw-bold text-dark">{{ field.name }}</code>
+            </td>
+            <td>
+              <span class="badge bg-light text-secondary border">{{ field.type }}</span>
+            </td>
+            <td class="text-secondary">{{ field.desc }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 3. Data Preparation & Cleaning Methodology -->
+  <div class="doc-section-card">
+    <h3 class="doc-section-title">
+      <i class="bi bi-wrench-adjustable-circle text-teal" style="color: var(--teal-primary);"></i>
+      3. Data Preparation Methodology
+    </h3>
+    <div class="row g-4">
+      <div class="col-md-6">
+        <h6 class="fw-bold text-dark"><i class="bi bi-currency-exchange me-2 text-primary"></i>Currency Standardization &amp; Unit Normalization</h6>
+        <p class="small text-secondary">
+          Domestic pump prices originally reported in local national currencies were harmonized to <strong>USD per Liter</strong> using historical exchange rates matching the transaction dates. LPG values were converted to volumetric liter equivalents to maintain direct parity with liquid transport fuels.
+        </p>
+      </div>
+      <div class="col-md-6">
+        <h6 class="fw-bold text-dark"><i class="bi bi-calendar-check me-2 text-success"></i>Temporal Alignment &amp; Merging</h6>
+        <p class="small text-secondary">
+          Retail survey points were aligned chronologically with daily international <code>Brent Crude USD</code> benchmark prices, ensuring synchronized time-series matching without look-ahead bias.
+        </p>
+      </div>
+      <div class="col-md-6">
+        <h6 class="fw-bold text-dark"><i class="bi bi-shield-shaded me-2 text-warning"></i>Categorical Classification</h6>
+        <p class="small text-secondary">
+          Sovereign nations were mapped to standardized continental <strong>Region</strong> groupings and World Bank <strong>Income Level</strong> tiers to enable segmented group-by aggregations and boxplot distributions.
+        </p>
+      </div>
+      <div class="col-md-6">
+        <h6 class="fw-bold text-dark"><i class="bi bi-check-all me-2 text-danger"></i>Missing Value &amp; Outlier Imputation</h6>
+        <p class="small text-secondary">
+          Records with non-reporting gaps in specific fuel categories were handled through verified interpolation or categorized under missing flags to prevent statistical distortion in cross-national averages.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Visualizations Created in Tableau -->
+  <div class="doc-section-card">
+    <h3 class="doc-section-title">
+      <i class="bi bi-bar-chart-steps text-teal" style="color: var(--teal-primary);"></i>
+      4. Visualizations Created in Tableau
+    </h3>
+    <div class="row g-3">
+      <div class="col-md-4">
+        <div class="p-3 rounded border bg-light h-100">
+          <span class="badge bg-primary mb-2">Choropleth Map</span>
+          <h6 class="fw-bold text-dark">Global Fuel Price &amp; Tax Map</h6>
+          <p class="small text-secondary mb-0">Geographical visualization encoding retail petrol and diesel pump prices by country with interactive tooltip breakdowns of local tax percentages.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="p-3 rounded border bg-light h-100">
+          <span class="badge bg-success mb-2">Scatter &amp; Regression</span>
+          <h6 class="fw-bold text-dark">Tax % vs Retail Fuel Price</h6>
+          <p class="small text-secondary mb-0">Correlation matrix plotting sovereign tax rates against retail consumer prices, highlighting fiscal revenue-seekers versus subsidized economies.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="p-3 rounded border bg-light h-100">
+          <span class="badge bg-warning text-dark mb-2">Dual-Axis Time Series</span>
+          <h6 class="fw-bold text-dark">Crude Benchmark vs Pump Prices</h6>
+          <p class="small text-secondary mb-0">Comparative longitudinal trendlines tracking Brent Crude USD alongside petrol and diesel movements across selected economic regions.</p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="p-3 rounded border bg-light h-100">
+          <span class="badge bg-info text-dark mb-2">Box &amp; Whisker Plot</span>
+          <h6 class="fw-bold text-dark">Price Dispersion by Income Level</h6>
+          <p class="small text-secondary mb-0">Statistical distribution displaying median, interquartile ranges, and outliers for fuel prices across High, Upper-Middle, Lower-Middle, and Low Income groups.</p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="p-3 rounded border bg-light h-100">
+          <span class="badge bg-danger mb-2">Tableau Guided Story</span>
+          <h6 class="fw-bold text-dark">Chronological Executive Narrative</h6>
+          <p class="small text-secondary mb-0">A multi-tab interactive storyboard guiding policy researchers through baseline shocks, taxation dynamics, and economic equity consequences.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Tools & Technologies Used -->
+  <div class="doc-section-card">
+    <h3 class="doc-section-title">
+      <i class="bi bi-stack text-teal" style="color: var(--teal-primary);"></i>
+      5. Tools &amp; Technologies Used
+    </h3>
+    <div class="row g-3">
+      <div class="col-sm-6 col-lg-3">
+        <div class="p-3 border rounded text-center h-100 d-flex flex-column justify-content-between">
+          <div>
+            <i class="bi bi-bar-chart-line fs-2 text-primary mb-2"></i>
+            <h6 class="fw-bold mb-1">Tableau Public</h6>
+            <p class="small text-secondary mb-2">Interactive visual dashboards, calculated fields, parameters, and guided story points.</p>
+          </div>
+          <a href="{{ tableau_public_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary btn-sm">
+            <i class="bi bi-box-arrow-up-right me-1"></i> View Live Viz
+          </a>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-3">
+        <div class="p-3 border rounded text-center h-100">
+          <i class="bi bi-filetype-py fs-2 text-success mb-2"></i>
+          <h6 class="fw-bold mb-1">Python &amp; Flask</h6>
+          <p class="small text-secondary mb-0">Lightweight WSGI web backend, dynamic routing, Jinja2 template inheritance.</p>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-3">
+        <div class="p-3 border rounded text-center h-100">
+          <i class="bi bi-bootstrap fs-2 text-purple mb-2" style="color: #6f42c1;"></i>
+          <h6 class="fw-bold mb-1">Bootstrap 5 &amp; CSS3</h6>
+          <p class="small text-secondary mb-0">Responsive UI, grid layout, custom dark navy and teal palette, accessibility focus.</p>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-3">
+        <div class="p-3 border rounded text-center h-100">
+          <i class="bi bi-github fs-2 text-dark mb-2"></i>
+          <h6 class="fw-bold mb-1">Git &amp; GitHub</h6>
+          <p class="small text-secondary mb-0">Version control, reproducible portfolio repository, and deployment staging.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Limitations of the Analysis -->
+  <div class="doc-section-card mb-0">
+    <h3 class="doc-section-title">
+      <i class="bi bi-exclamation-octagon text-teal" style="color: var(--teal-primary);"></i>
+      6. Analytical Boundaries &amp; Limitations
+    </h3>
+    <ul class="text-secondary mb-0 ps-3">
+      <li class="mb-2">
+        <strong>Sub-National Tax Heterogeneity:</strong> In large federal nations (e.g., United States, India, Canada), fuel taxes vary substantially by state or province. National aggregations reflect nationwide averages and may smooth over regional extremes.
+      </li>
+      <li class="mb-2">
+        <strong>Currency Fluctuation Distortions:</strong> Converting retail prices to USD introduces foreign exchange rate volatility. A weakening domestic currency may make pump prices appear cheaper in USD even as domestic consumers face sharp inflation.
+      </li>
+      <li class="mb-2">
+        <strong>Indirect Subsidies:</strong> While explicit price caps and subsidies are recorded, implicit non-cash subsidies (e.g., state-owned oil enterprise debt absorption) are difficult to isolate in public datasets.
+      </li>
+      <li>
+        <strong>Survey Latency:</strong> Fuel price reporting frequency varies across jurisdictions, meaning some developing nation datapoints may reflect monthly surveys rather than high-frequency spot adjustments.
+      </li>
+    </ul>
+  </div>
+
+</div>
+{% endblock %}
+
